@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5352420065804227455}
   - component: {fileID: 7957043187285880745}
   - component: {fileID: 593107526221240244}
+  - component: {fileID: 5255134343332353013}
   m_Layer: 0
   m_Name: Divider
   m_TagString: Untagged
@@ -109,3 +110,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5255134343332353013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7791378391195280622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d05f4b333f483f45980565c5de4c464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

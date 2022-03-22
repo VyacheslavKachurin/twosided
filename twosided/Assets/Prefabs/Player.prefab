@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1999363958284674204}
   - component: {fileID: 6059702150648437523}
   - component: {fileID: -6670890410165959289}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &-6670890410165959289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,3 +146,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpForce: 500
   _velocity: 10
+  _ignoreMask: 0

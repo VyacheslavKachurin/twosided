@@ -6,27 +6,39 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _velocity;
+    [SerializeField] private int _ignoreMask;
 
     private Rigidbody2D _rb;
     private Direction _currentPosition;
-    private bool _isGrounded;
-    private Vector2 forwardVelocity;
+    private bool _isGrounded = false;
+    private Vector2 _forwardVelocity;
+    private float _rayLength;
+
     public void Initialize()
     {
+        _ignoreMask = ~LayerMask.GetMask("PlayerMask");
         _rb = GetComponent<Rigidbody2D>();
         _currentPosition = Direction.Up;
 
-        forwardVelocity = new Vector2(_velocity, 0);
+        _rayLength = transform.localScale.y / 2 + 0.1f;
     }
 
     private void FixedUpdate()
     {
         MoveForward();
+
+    }
+
+    private void Update()
+    {
+        CheckForGround();
+        Debug.Log(_rb.velocity);
     }
 
     private void MoveForward()
     {
-        _rb.velocity += forwardVelocity*Time.fixedDeltaTime;
+        _forwardVelocity = new Vector2(_velocity,_rb.velocity.y);
+        _rb.velocity = _forwardVelocity;
     }
 
     public void Move(Direction direction)
@@ -46,7 +58,6 @@ public class PlayerController : MonoBehaviour
     private void ChangeGravity(Direction direction)
     {
         Physics2D.gravity = new Vector3(0, -Physics2D.gravity.y, 0);
-        Debug.Log(Physics2D.gravity);
         _currentPosition = direction;
 
         Vector2 newPos = new Vector2(transform.position.x, -transform.position.y);
@@ -59,14 +70,16 @@ public class PlayerController : MonoBehaviour
         _rb.AddForce(forceDirection * _jumpForce);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
 
-        _isGrounded = true;
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
+    private void CheckForGround()
     {
-        _isGrounded = false;
+        Vector2 rayDirection = (_currentPosition == Direction.Up) ? Vector2.down : Vector2.up;
+
+        Debug.DrawRay(transform.position, rayDirection, Color.red);
+
+        if (Physics2D.Raycast(transform.position, rayDirection, _rayLength, _ignoreMask))
+            _isGrounded = true;
+        else
+            _isGrounded = false;
     }
 }
