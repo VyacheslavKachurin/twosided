@@ -26,13 +26,11 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         MoveForward();
-
     }
 
     private void Update()
     {
         CheckForGround();
-        Debug.Log(_rb.velocity);
     }
 
     private void MoveForward()
