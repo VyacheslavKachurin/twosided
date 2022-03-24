@@ -145,5 +145,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpForce: 700
-  _velocity: 0
+  _velocity: 10
   _ignoreMask: 0

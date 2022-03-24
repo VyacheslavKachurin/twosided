@@ -123,3 +123,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _obstaclePrefab: {fileID: 6823698247191825694, guid: 9343afdb30e46834da04d1efb5cd9bc3, type: 3}
+  _debugPrefab: {fileID: 8796050288656991229, guid: aa8adf8fe30549348a341ddb56fdff90, type: 3}
