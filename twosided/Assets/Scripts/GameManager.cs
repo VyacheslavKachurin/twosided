@@ -31,8 +31,9 @@ public class GameManager : MonoBehaviour
         _camera.SetPlayer(_player);
 
         _levelGenerator = Instantiate(_levelGenerator);
+        _levelGenerator.SetPlayer(_player.transform);
 
-        _cleaner = Instantiate(_cleaner, _cleanerSpawnPoint, Quaternion.identity);
-        _cleaner.SetPlayer(_player);
+      //  _cleaner = Instantiate(_cleaner, _cleanerSpawnPoint, Quaternion.identity);
+       // _cleaner.SetPlayer(_player);
     }
 }

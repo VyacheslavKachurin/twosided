@@ -10,16 +10,14 @@ public class ObstacleGeneration : MonoBehaviour
     private List<Vector2> _obstacles = new List<Vector2>();
     private float _obstacleGap = 1.1f;
 
-    //this script is responsible for creating obstacles on the platform
     public void Start()
     {
         Initialize();
-
     }
 
     private void Initialize()
     {
-        var randomObstacleAmount = UnityEngine.Random.Range(10, 15);
+        var randomObstacleAmount = UnityEngine.Random.Range(1, 5);
         for (int i = 0; i < randomObstacleAmount; i++)
         {
             SpawnObstacle();
@@ -42,7 +40,7 @@ public class ObstacleGeneration : MonoBehaviour
     {
         int sign = UnityEngine.Random.Range(0, 2) * 2 - 1;
         float yPosition = sign * (_obstaclePrefab.transform.localScale.y / 2 + transform.localScale.y / 2);
-        float xPosition = UnityEngine.Random.Range((-transform.localScale.x / 2)+_obstaclePrefab.transform.localScale.x/2, (transform.localScale.x / 2)- _obstaclePrefab.transform.localScale.x / 2);
+        float xPosition = UnityEngine.Random.Range((-transform.localScale.x / 2) + _obstaclePrefab.transform.localScale.x / 2, (transform.localScale.x / 2) - _obstaclePrefab.transform.localScale.x / 2);
 
         Vector2 offset = new Vector2(xPosition, yPosition);
 

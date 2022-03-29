@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _jumpForce;
+    [SerializeField] private float _fallMultiplier=1.5f;
     [SerializeField] private float _velocity;
     [SerializeField] private int _ignoreMask;
 
@@ -26,6 +28,15 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         MoveForward();
+        ModifyFalling();
+    }
+
+    private void ModifyFalling()
+    {
+        if (_isGrounded==false)
+        {
+            _rb.velocity += Vector2.up * Physics2D.gravity.y * _fallMultiplier * Time.deltaTime;
+        }
     }
 
     private void Update()
