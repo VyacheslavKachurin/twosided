@@ -120,7 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpForce: 1200
   _fallMultiplier: 1.5
-  _velocity: 0
+  _velocity: 10
   _ignoreMask: 0
 --- !u!61 &3569051276180237240
 BoxCollider2D:
