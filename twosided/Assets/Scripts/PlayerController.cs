@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 public class PlayerController : MonoBehaviour
 {
+    public event Action<int> HealthChanged;
+    public event Action PlayerDied;
+
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _fallMultiplier = 1.5f;
     [SerializeField] private float _velocity;
@@ -16,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private bool _isGrounded = false;
     private Vector2 _forwardVelocity;
     private float _rayLength;
+    private int _currentHealth = 3;
 
     public void Initialize()
     {
@@ -91,5 +95,43 @@ public class PlayerController : MonoBehaviour
             _isGrounded = true;
         else
             _isGrounded = false;
+    }
+
+    private void TakeDamage()
+    {
+        if (_currentHealth != 0)
+        {
+            _currentHealth--;
+            HealthChanged?.Invoke(_currentHealth);
+            if (_currentHealth == 0)
+            {
+                PlayerDied?.Invoke();
+                _velocity = 0;
+            }
+
+        }
+
+    }
+
+    private void AddHealth()
+    {
+        if (_currentHealth < 3)
+        {
+            _currentHealth++;
+            HealthChanged?.Invoke(_currentHealth);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+            TakeDamage();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("heart taken");
+        if (collision.gameObject.tag == "Heart")
+            AddHealth();
     }
 }

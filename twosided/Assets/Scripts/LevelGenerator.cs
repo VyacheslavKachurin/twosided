@@ -22,9 +22,7 @@ public class LevelGenerator : MonoBehaviour
     private void Update()
     {
         if (_dividers.Count > 0)
-        {
             CheckForPlayer();
-        }
     }
 
     public void SetPlayer(Transform player)

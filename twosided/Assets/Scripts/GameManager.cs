@@ -8,21 +8,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _divider;
     [SerializeField] private InputController _inputController;
     [SerializeField] private CameraFollow _camera;
-    [SerializeField] private LevelGenerator _levelGenerator;
-    [SerializeField] private Cleaner _cleaner;
+    [SerializeField] private UIView _UIView;
 
+    [SerializeField] private LevelGenerator _levelGenerator;
+    private UIModel _UIModel;
     private PlayerController _playerController;
 
-    private Vector2 _cleanerSpawnPoint;
     private Vector3 playerSpawnPoint = new Vector3(-5.5f, 3.3f, 0);
 
     private void Start()
     {
-        _cleanerSpawnPoint = new Vector2(_divider.transform.localScale.x*2,0);
+        _UIView = Instantiate(_UIView);
+        _UIModel = new UIModel(_UIView);
 
         _player=Instantiate(_player,playerSpawnPoint,Quaternion.identity);
         _playerController = _player.GetComponent<PlayerController>();
-        _playerController.Initialize(); 
+        _playerController.Initialize();
+        _playerController.HealthChanged += _UIModel.UpdateHealth;
 
         _inputController.UpButtonPressed += _playerController.Move;
         _inputController.DownButtonPressed += _playerController.Move;
@@ -33,7 +35,5 @@ public class GameManager : MonoBehaviour
         _levelGenerator = Instantiate(_levelGenerator);
         _levelGenerator.SetPlayer(_player.transform);
 
-      //  _cleaner = Instantiate(_cleaner, _cleanerSpawnPoint, Quaternion.identity);
-       // _cleaner.SetPlayer(_player);
     }
 }

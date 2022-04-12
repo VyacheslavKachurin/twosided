@@ -48,8 +48,8 @@ MonoBehaviour:
   _divider: {fileID: 7791378391195280622, guid: 836ee89367c9dd14f8789a8294f1672b, type: 3}
   _inputController: {fileID: 6192036127885018095}
   _camera: {fileID: 8971347241698832512, guid: 1c7ff947fbce1ad40977e9ae50fe89e8, type: 3}
+  _UIView: {fileID: 6595867167970872479, guid: 64d788102a5d3e14b809aa0bc84ab17c, type: 3}
   _levelGenerator: {fileID: 3234762804618311163, guid: e70a1b62aef80f241980bee570fdbd12, type: 3}
-  _cleaner: {fileID: 8297697056059693816, guid: 4ccbd84f7398b0445b3a46555d3c6d44, type: 3}
 --- !u!114 &6192036127885018095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,5 +62,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371ec5c45bfba37469e138264865dc47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _topButton: {fileID: 0}
-  _downButton: {fileID: 0}

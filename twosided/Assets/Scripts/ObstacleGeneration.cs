@@ -1,12 +1,14 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class ObstacleGeneration : MonoBehaviour
 {
-    [SerializeField] private GameObject _obstaclePrefab;
     public event Action InstanceDestroyed;
+
+    [SerializeField] private GameObject _obstaclePrefab;
+    [SerializeField] private GameObject _heartPrefab;
+    private const float _heartSpawnChance = 0.9f;
     private List<Vector2> _obstacles = new List<Vector2>();
     private float _obstacleGap = 1.1f;
 
@@ -17,10 +19,11 @@ public class ObstacleGeneration : MonoBehaviour
 
     private void Initialize()
     {
-        var randomObstacleAmount = UnityEngine.Random.Range(1, 5);
-        for (int i = 0; i < randomObstacleAmount; i++)
+        var randomObjectAmount = UnityEngine.Random.Range(1, 5);
+        for (int i = 0; i < randomObjectAmount; i++)
         {
-            SpawnObstacle();
+            var randomPrefab = ChooseObject();
+            SpawnObject(randomPrefab);
         }
     }
 
@@ -29,11 +32,11 @@ public class ObstacleGeneration : MonoBehaviour
         InstanceDestroyed?.Invoke();
     }
 
-    private void SpawnObstacle()
+    private void SpawnObject(GameObject randomPrefab)
     {
-        var obstacleSpawnPoint = CalculateRandomPosition();
-        var obstacleInstance = Instantiate(_obstaclePrefab, (Vector2)transform.position + obstacleSpawnPoint, Quaternion.identity);
-        obstacleInstance.transform.SetParent(transform);
+        var objectSpawnPoint = CalculateRandomPosition();
+        var objectInstance = Instantiate(randomPrefab, (Vector2)transform.position + objectSpawnPoint, Quaternion.identity);
+        objectInstance.transform.SetParent(transform);
     }
 
     private Vector2 CalculateRandomPosition()
@@ -66,5 +69,13 @@ public class ObstacleGeneration : MonoBehaviour
             }
         }
         return true;
+    }
+
+    private GameObject ChooseObject()
+    {
+        if (UnityEngine.Random.value > _heartSpawnChance)
+            return _heartPrefab;
+        else
+            return _obstaclePrefab;
     }
 }
