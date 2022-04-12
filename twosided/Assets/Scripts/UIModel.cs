@@ -6,11 +6,16 @@ public class UIModel
 {
     private UIView _view;
     private int _currentHealth;
-    public UIModel(UIView view,int maxHealth)
+    public UIModel(UIView view, int maxHealth, GameManager _gameManager, PlayerController _playerController)
     {
         _currentHealth = maxHealth;
         _view = view;
         _view.Initialize(_currentHealth);
+        _view.PauseClicked += TogglePauseMenu;
+        _view.PauseClicked += _gameManager.TogglePause;
+        _view.MenuClicked += _gameManager.LoadMenu;
+        _view.TopButton.ButtonPressed += _playerController.Move;
+        _view.DownButton.ButtonPressed += _playerController.Move;
     }
 
     public void UpdateHealth(int newHealth)
@@ -25,5 +30,10 @@ public class UIModel
             _view.EmptyHeart();
             _currentHealth = newHealth;
         }
+    }
+
+    private void TogglePauseMenu()
+    {
+        _view.TogglePauseMenu();
     }
 }

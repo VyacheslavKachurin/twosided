@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
-    [SerializeField] private InputController _inputController;
     [SerializeField] private CameraFollow _camera;
     [SerializeField] private UIView _UIView;
 
@@ -23,14 +23,9 @@ public class GameManager : MonoBehaviour
         _playerController = _player.GetComponent<PlayerController>();
         _playerController.Initialize();
 
-        _UIModel = new UIModel(_UIView,_playerController.MaxHealth);
-
+        _UIModel = new UIModel(_UIView,_playerController.MaxHealth,this,_playerController);
+       
         _playerController.HealthChanged += _UIModel.UpdateHealth;
-        _playerController.PlayerDied += _inputController.TogglePause;
-
-
-        _inputController.UpButtonPressed += _playerController.Move;
-        _inputController.DownButtonPressed += _playerController.Move;
 
         _camera = Instantiate(_camera);
         _camera.SetPlayer(_player);
@@ -38,5 +33,15 @@ public class GameManager : MonoBehaviour
         _levelGenerator = Instantiate(_levelGenerator);
         _levelGenerator.SetPlayer(_player.transform);
 
+    }
+
+    public void TogglePause()
+    {
+        Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+    }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

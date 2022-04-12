@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
 
     private Sprite _actualSprite;
     private Rigidbody2D _rb;
-    private BoxCollider2D _collider;
     private SpriteRenderer _spriteRenderer;
     private Direction _currentPosition;
     private bool _isGrounded = false;
@@ -45,7 +44,6 @@ public class PlayerController : MonoBehaviour
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _actualSprite = _spriteRenderer.sprite;
-        _collider = GetComponent<BoxCollider2D>();
     }
 
     private void FixedUpdate()
