@@ -1,33 +1,51 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     public event Action<int> HealthChanged;
     public event Action PlayerDied;
+    public int MaxHealth { get { return _maxHealth; } }
 
+    [SerializeField] private float _blinkingInterval = 0.15f;
+    [SerializeField] private float _blinkingDuration = 1.5f;
+
+    [SerializeField] private int _maxHealth;
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _fallMultiplier = 1.5f;
     [SerializeField] private float _velocity;
     [SerializeField] private int _ignoreMask;
 
+    [SerializeField] private Sprite _blinkingSprite;
+
+    private Sprite _actualSprite;
     private Rigidbody2D _rb;
+    private BoxCollider2D _collider;
+    private SpriteRenderer _spriteRenderer;
     private Direction _currentPosition;
     private bool _isGrounded = false;
     private Vector2 _forwardVelocity;
     private float _rayLength;
-    private int _currentHealth = 3;
+    private int _currentHealth;
+
+    private Coroutine _blinkingCoroutine;
+    private int _playerLayer = 6;
+    private int _obstacleLayer = 8;
+
 
     public void Initialize()
     {
+        _currentHealth = _maxHealth;
         _ignoreMask = ~LayerMask.GetMask("PlayerMask");
         _rb = GetComponent<Rigidbody2D>();
         _currentPosition = Direction.Up;
 
         _rayLength = transform.localScale.y / 2 + 0.1f;
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _actualSprite = _spriteRenderer.sprite;
+        _collider = GetComponent<BoxCollider2D>();
     }
 
     private void FixedUpdate()
@@ -99,10 +117,13 @@ public class PlayerController : MonoBehaviour
 
     private void TakeDamage()
     {
-        if (_currentHealth != 0)
+        if (_currentHealth > 0)
         {
             _currentHealth--;
             HealthChanged?.Invoke(_currentHealth);
+
+            SetBlinkingState();
+
             if (_currentHealth == 0)
                 Die();
         }
@@ -124,6 +145,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator StartBlinking()
+    {
+        while (true)
+        {
+            _spriteRenderer.sprite = _blinkingSprite;
+            _spriteRenderer.color = Color.white;
+            yield return new WaitForSeconds(_blinkingInterval);
+            _spriteRenderer.sprite = _actualSprite;
+            _spriteRenderer.color = Color.blue;
+            yield return new WaitForSeconds(0.2f);
+
+        }
+    }
+
+    private IEnumerator StopBlinking()
+    {
+        yield return new WaitForSeconds(_blinkingDuration);
+        if(_blinkingCoroutine!=null)
+        StopCoroutine(_blinkingCoroutine);
+        _spriteRenderer.color = Color.blue;
+        _blinkingCoroutine = null;
+        Physics2D.IgnoreLayerCollision(_playerLayer, _obstacleLayer, false);
+
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Obstacle")
@@ -138,4 +184,16 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
+
+    private void SetBlinkingState()
+    {
+
+        Physics2D.IgnoreLayerCollision(_playerLayer, _obstacleLayer);
+        if (_blinkingCoroutine != null)
+            StopCoroutine(_blinkingCoroutine);
+        _blinkingCoroutine = StartCoroutine(StartBlinking());
+        StartCoroutine(StopBlinking());
+    }
+
+
 }

@@ -6,9 +6,9 @@ public class UIModel
 {
     private UIView _view;
     private int _currentHealth;
-    public UIModel(UIView view)
+    public UIModel(UIView view,int maxHealth)
     {
-        _currentHealth = 3;
+        _currentHealth = maxHealth;
         _view = view;
         _view.Initialize(_currentHealth);
     }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
-    [SerializeField] private GameObject _divider;
     [SerializeField] private InputController _inputController;
     [SerializeField] private CameraFollow _camera;
     [SerializeField] private UIView _UIView;
@@ -19,13 +18,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _UIView = Instantiate(_UIView);
-        _UIModel = new UIModel(_UIView);
 
         _player=Instantiate(_player,playerSpawnPoint,Quaternion.identity);
         _playerController = _player.GetComponent<PlayerController>();
         _playerController.Initialize();
+
+        _UIModel = new UIModel(_UIView,_playerController.MaxHealth);
+
         _playerController.HealthChanged += _UIModel.UpdateHealth;
         _playerController.PlayerDied += _inputController.TogglePause;
+
 
         _inputController.UpButtonPressed += _playerController.Move;
         _inputController.DownButtonPressed += _playerController.Move;
