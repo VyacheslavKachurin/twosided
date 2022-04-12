@@ -9,14 +9,17 @@ public class InputController : MonoBehaviour
     public event Action<Direction> DownButtonPressed;
 
     private bool _isJumped;
+    private bool _isGamePaused;
     private void Start()
     {
+        _isGamePaused = false;
         _isJumped = false;
     }
 
     private void Update()
     {
-        ProcessTouch();
+        if (!_isGamePaused)
+            ProcessTouch();
     }
 
     private void ProcessTouch()
@@ -41,7 +44,10 @@ public class InputController : MonoBehaviour
         if (Input.touchCount == 0)
             _isJumped = false;
     }
-
+    public void TogglePause()
+    {
+        _isGamePaused = !_isGamePaused;
+    }
     private void MoveUp() => UpButtonPressed(Direction.Up);
 
     private void MoveDown() => DownButtonPressed(Direction.Down);

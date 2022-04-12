@@ -7,18 +7,10 @@ public class UIView : MonoBehaviour
 {
     [SerializeField] private Transform _healthParent;
     [SerializeField] private GameObject _heartPrefab;
-    [SerializeField] private Sprite _filledHeart;
+    [SerializeField] private Sprite _filledHeart; //TODO: assign sprites instead of colors;
     [SerializeField] private Sprite _emptyHeartSprite;
 
-
     private List<Image> _hearts = new List<Image>();
-
-
-    private int _health;
-    public void UpdateHealth(int health)
-    {
-        _health++;
-    }
 
     public void Initialize(int heartsAmount)
     {
@@ -54,7 +46,5 @@ public class UIView : MonoBehaviour
                 return;
             }
         }
-
-
     }
 }

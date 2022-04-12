@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         _playerController = _player.GetComponent<PlayerController>();
         _playerController.Initialize();
         _playerController.HealthChanged += _UIModel.UpdateHealth;
+        _playerController.PlayerDied += _inputController.TogglePause;
 
         _inputController.UpButtonPressed += _playerController.Move;
         _inputController.DownButtonPressed += _playerController.Move;

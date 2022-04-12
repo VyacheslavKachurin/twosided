@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading.Tasks;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -104,13 +104,15 @@ public class PlayerController : MonoBehaviour
             _currentHealth--;
             HealthChanged?.Invoke(_currentHealth);
             if (_currentHealth == 0)
-            {
-                PlayerDied?.Invoke();
-                _velocity = 0;
-            }
-
+                Die();
         }
 
+    }
+
+    private void Die()
+    {
+        PlayerDied?.Invoke();
+        _velocity = 0;
     }
 
     private void AddHealth()
@@ -130,8 +132,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("heart taken");
         if (collision.gameObject.tag == "Heart")
+        {
             AddHealth();
+            Destroy(collision.gameObject);
+        }
     }
 }
