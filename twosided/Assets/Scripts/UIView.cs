@@ -8,6 +8,7 @@ public class UIView : MonoBehaviour
 {
     public event Action PauseClicked;
     public event Action MenuClicked;
+    public event Action RestartClicked;
 
     public ActionButton TopButton;
     public ActionButton DownButton;
@@ -20,8 +21,7 @@ public class UIView : MonoBehaviour
 
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _mainMenuButton;
-
-
+    [SerializeField] private Button _restartButton;
 
     [SerializeField] private GameObject _pauseMenu;
 
@@ -39,11 +39,17 @@ public class UIView : MonoBehaviour
 
         _continueButton.onClick.AddListener(ClickPause);
         _mainMenuButton.onClick.AddListener(ClickMenu);
+        _restartButton.onClick.AddListener(ClickRestart);
     }
 
     private void ClickPause()
     {
         PauseClicked?.Invoke();
+    }
+
+    private void ClickRestart()
+    {
+        RestartClicked?.Invoke();
     }
 
     private void ClickMenu()
@@ -80,5 +86,12 @@ public class UIView : MonoBehaviour
     public void TogglePauseMenu()
     {
         _pauseMenu.SetActive(!_pauseMenu.activeInHierarchy);
+    }
+
+    public void ToggleGameOverMenu()
+    {
+        TogglePauseMenu();
+        _restartButton.gameObject.SetActive(true);
+        _continueButton.gameObject.SetActive(false);
     }
 }

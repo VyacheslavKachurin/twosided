@@ -32,9 +32,11 @@ public class PlayerController : MonoBehaviour
     private int _playerLayer = 6;
     private int _obstacleLayer = 8;
 
-
     public void Initialize()
     {
+        ToggleCollisions(false);
+ 
+
         _currentHealth = _maxHealth;
         _ignoreMask = ~LayerMask.GetMask("PlayerMask");
         _rb = GetComponent<Rigidbody2D>();
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         CheckForGround();
+
     }
 
     private void MoveForward()
@@ -87,7 +90,7 @@ public class PlayerController : MonoBehaviour
 
     private void ChangeGravity(Direction direction)
     {
-        Physics2D.gravity = new Vector3(0, -Physics2D.gravity.y, 0);
+        Physics2D.gravity = new Vector2(0, -Physics2D.gravity.y);
         _currentPosition = direction;
 
         Vector2 newPos = new Vector2(transform.position.x, -transform.position.y);
@@ -164,7 +167,7 @@ public class PlayerController : MonoBehaviour
         StopCoroutine(_blinkingCoroutine);
         _spriteRenderer.color = Color.blue;
         _blinkingCoroutine = null;
-        Physics2D.IgnoreLayerCollision(_playerLayer, _obstacleLayer, false);
+        ToggleCollisions(false);
 
     }
 
@@ -185,12 +188,22 @@ public class PlayerController : MonoBehaviour
 
     private void SetBlinkingState()
     {
-
-        Physics2D.IgnoreLayerCollision(_playerLayer, _obstacleLayer);
+        ToggleCollisions();
         if (_blinkingCoroutine != null)
             StopCoroutine(_blinkingCoroutine);
         _blinkingCoroutine = StartCoroutine(StartBlinking());
         StartCoroutine(StopBlinking());
+    }
+
+    private void ToggleCollisions(bool value=true)
+    {
+        Physics2D.IgnoreLayerCollision(_playerLayer, _obstacleLayer, value);
+    }
+
+    private void OnDestroy()
+    {
+        if(_currentPosition==Direction.Down)
+        ChangeGravity(Direction.Up);
     }
 
 

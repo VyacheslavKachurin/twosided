@@ -78,4 +78,5 @@ public class ObstacleGeneration : MonoBehaviour
         else
             return _obstaclePrefab;
     }
+
 }

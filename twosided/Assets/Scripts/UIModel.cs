@@ -16,6 +16,7 @@ public class UIModel
         _view.MenuClicked += _gameManager.LoadMenu;
         _view.TopButton.ButtonPressed += _playerController.Move;
         _view.DownButton.ButtonPressed += _playerController.Move;
+        _view.RestartClicked += _gameManager.RestartLevel;
     }
 
     public void UpdateHealth(int newHealth)
@@ -35,5 +36,11 @@ public class UIModel
     private void TogglePauseMenu()
     {
         _view.TogglePauseMenu();
+    }
+
+    public void ToggleGameOverMenu()
+    {
+        _view.ToggleGameOverMenu();
+
     }
 }

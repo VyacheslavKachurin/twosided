@@ -13,10 +13,11 @@ public class LevelGenerator : MonoBehaviour
     private Transform _lastDivider;
 
     private Vector2 _spawnPoint = new Vector2(0, 0);
-
+    private bool _isGameFinished = false;
     private void Start()
     {
         Initialize();
+        
     }
 
     private void Update()
@@ -54,11 +55,20 @@ public class LevelGenerator : MonoBehaviour
     }
     private void AddDivider()
     {
+        if (_isGameFinished)
+            return;
+
         var dividerInstance = Instantiate(_dividerPrefab, _spawnPoint, Quaternion.identity);
-        dividerInstance.transform.SetParent(_floorHolder);
+        dividerInstance.transform.SetParent(_floorHolder);    
         dividerInstance.GetComponent<ObstacleGeneration>().InstanceDestroyed += AddDivider;
         _spawnPoint += new Vector2(_dividerPrefab.transform.localScale.x, 0);
 
-        _dividers.Enqueue(dividerInstance.transform);
+        _dividers.Enqueue(dividerInstance.transform);     
     }
+
+    public void StopSpawning()
+    {
+        _isGameFinished = true;
+    }
+
 }

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7436078814243339606}
   - component: {fileID: 4481528488776284603}
-  - component: {fileID: 6192036127885018095}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,20 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 1291457121729784890, guid: 8863720583325e3488b84ddaf7c325f0, type: 3}
-  _divider: {fileID: 7791378391195280622, guid: 836ee89367c9dd14f8789a8294f1672b, type: 3}
-  _inputController: {fileID: 6192036127885018095}
   _camera: {fileID: 8971347241698832512, guid: 1c7ff947fbce1ad40977e9ae50fe89e8, type: 3}
   _UIView: {fileID: 6595867167970872479, guid: 64d788102a5d3e14b809aa0bc84ab17c, type: 3}
   _levelGenerator: {fileID: 3234762804618311163, guid: e70a1b62aef80f241980bee570fdbd12, type: 3}
---- !u!114 &6192036127885018095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2792674115302841061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 371ec5c45bfba37469e138264865dc47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
