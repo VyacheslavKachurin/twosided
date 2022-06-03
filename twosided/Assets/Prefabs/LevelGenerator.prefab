@@ -43,5 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d3853fe30ab6341b179506a5b44338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dividerPrefab: {fileID: 7791378391195280622, guid: 836ee89367c9dd14f8789a8294f1672b, type: 3}
+  _platformPrefab: {fileID: 7791378391195280622, guid: 836ee89367c9dd14f8789a8294f1672b, type: 3}
   _floorHolder: {fileID: 1622965996293719110, guid: 12a5fc55661f894429898f378b29f875, type: 3}
+  _player: {fileID: 0}

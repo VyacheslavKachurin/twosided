@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleGeneration : MonoBehaviour
+public class ObstacleSpawner : MonoBehaviour
 {
     public event Action InstanceDestroyed;
 
     [SerializeField] private GameObject _obstaclePrefab;
-    [SerializeField] private GameObject _heartPrefab;
-    private const float _heartSpawnChance = 0.9f;
     private List<Vector2> _obstacles = new List<Vector2>();
     private float _obstacleGap = 1.1f;
 
@@ -22,8 +20,7 @@ public class ObstacleGeneration : MonoBehaviour
         var randomObjectAmount = UnityEngine.Random.Range(1, 5);
         for (int i = 0; i < randomObjectAmount; i++)
         {
-            var randomPrefab = ChooseObject();
-            SpawnObject(randomPrefab);
+            SpawnObstacle();
         }
     }
 
@@ -32,10 +29,10 @@ public class ObstacleGeneration : MonoBehaviour
         InstanceDestroyed?.Invoke();
     }
 
-    private void SpawnObject(GameObject randomPrefab)
+    private void SpawnObstacle()
     {
         var objectSpawnPoint = CalculateRandomPosition();
-        var objectInstance = Instantiate(randomPrefab, (Vector2)transform.position + objectSpawnPoint, Quaternion.identity);
+        var objectInstance = Instantiate(_obstaclePrefab, (Vector2)transform.position + objectSpawnPoint, Quaternion.identity);
         objectInstance.transform.SetParent(transform);
     }
 
@@ -71,12 +68,5 @@ public class ObstacleGeneration : MonoBehaviour
         return true;
     }
 
-    private GameObject ChooseObject()
-    {
-        if (UnityEngine.Random.value > _heartSpawnChance)
-            return _heartPrefab;
-        else
-            return _obstaclePrefab;
-    }
 
 }
