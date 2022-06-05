@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    [SerializeField] private GameObject _platformPrefab;
+    //[SerializeField] private GameObject _platformPrefab;
     [SerializeField] private Transform _floorHolder;
     [SerializeField] private Transform _player;
 
@@ -14,9 +14,12 @@ public class LevelGenerator : MonoBehaviour
 
     private Vector2 _spawnPoint = new Vector2(0, 0);
     private bool _isGameFinished = false;
+
+    private IResourceManager _resourceManager;
     private void Start()
     {
         Initialize();
+
 
     }
 
@@ -47,6 +50,7 @@ public class LevelGenerator : MonoBehaviour
 
     private void Initialize()
     {
+        Debug.Log("Initialized");
         _floorHolder = Instantiate(_floorHolder, Vector3.zero, Quaternion.identity);
         for (int i = 0; i < 5; i++)
         {
@@ -58,10 +62,12 @@ public class LevelGenerator : MonoBehaviour
         if (_isGameFinished)
             return;
 
-        var dividerInstance = Instantiate(_platformPrefab, _spawnPoint, Quaternion.identity);
+        _resourceManager = new ResourceManager();
+        var dividerInstance = _resourceManager.CreatePrefabInstance(EObjects.Platform);
+        dividerInstance.transform.position = _spawnPoint;
         dividerInstance.transform.SetParent(_floorHolder);
         dividerInstance.GetComponent<ObstacleSpawner>().InstanceDestroyed += AddDivider;
-        _spawnPoint += new Vector2(_platformPrefab.transform.localScale.x, 0);
+        _spawnPoint += new Vector2(dividerInstance.transform.localScale.x, 0);
 
         _dividers.Enqueue(dividerInstance.transform);
     }
