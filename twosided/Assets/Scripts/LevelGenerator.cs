@@ -54,10 +54,10 @@ public class LevelGenerator : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            AddDivider();
+            AddPlatform();
         }
     }
-    private void AddDivider()
+    private void AddPlatform()
     {
         if (_isGameFinished)
             return;
@@ -65,7 +65,7 @@ public class LevelGenerator : MonoBehaviour
         var dividerInstance = _resourceManager.CreatePrefabInstance(EObjects.Platform);
         dividerInstance.transform.position = _spawnPoint;
         dividerInstance.transform.SetParent(_platformHolder);
-        dividerInstance.GetComponent<ObstacleSpawner>().InstanceDestroyed += AddDivider;
+        dividerInstance.GetComponent<ObjectSpawner>().InstanceDestroyed += AddPlatform;
         _spawnPoint += new Vector2(dividerInstance.transform.localScale.x, 0);
 
         _dividers.Enqueue(dividerInstance.transform);

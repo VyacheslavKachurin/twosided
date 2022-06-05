@@ -10,6 +10,7 @@ public class ResourceManager : IResourceManager
         var obj = GameObject.Instantiate(Resources.Load<GameObject>(_prefabsPath + prefab.ToString()));
         return obj;
     }
+
 }
 
-public enum EObjects { Platform, PlatformHolder, Player,Camera };
+public enum EObjects { Platform, PlatformHolder, Player, Camera, Coin, Obstacle, Heart };

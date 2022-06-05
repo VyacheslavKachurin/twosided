@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public event Action<int> HealthChanged;
     public event Action PlayerDied;
+    public event Action CoinPickedUp;
     public int MaxHealth { get { return _maxHealth; } }
 
     [SerializeField] private float _blinkingInterval = 0.15f;
@@ -171,20 +172,24 @@ public class Player : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Obstacle")
             TakeDamage();
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
         if (collision.gameObject.tag == "Heart")
         {
             AddHealth();
             Destroy(collision.gameObject);
         }
+
+        if (collision.gameObject.tag == "Coin")
+        {
+            CoinPickedUp?.Invoke();
+            Destroy(collision.gameObject);
+        }
     }
+
 
     private void SetBlinkingState()
     {
