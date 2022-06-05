@@ -1,5 +1,5 @@
 ﻿using UnityEngine; 
-interface IResourceManager
+public interface IResourceManager
 {
     public GameObject CreatePrefabInstance(EObjects prefab);
 

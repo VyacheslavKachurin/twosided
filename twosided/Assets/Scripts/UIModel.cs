@@ -6,7 +6,7 @@ public class UIModel
 {
     private UIView _view;
     private int _currentHealth;
-    public UIModel(UIView view, int maxHealth, GameManager _gameManager, PlayerController _playerController)
+    public UIModel(UIView view, int maxHealth, GameManager _gameManager, Player _playerController)
     {
         _currentHealth = maxHealth;
         _view = view;

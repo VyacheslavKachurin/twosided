@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public event Action<int> HealthChanged;
     public event Action PlayerDied;

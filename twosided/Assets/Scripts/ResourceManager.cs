@@ -12,4 +12,4 @@ public class ResourceManager : IResourceManager
     }
 }
 
-public enum EObjects { Platform };
+public enum EObjects { Platform, PlatformHolder, Player,Camera };

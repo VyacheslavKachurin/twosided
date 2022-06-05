@@ -7,24 +7,25 @@ using UnityEditor;
 #endif
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _player;
     [SerializeField] private CameraFollow _camera;
     [SerializeField] private UIView _UIView;
 
     [SerializeField] private LevelGenerator _levelGenerator;
+    
+    private GameObject _player;
     private UIModel _UIModel;
-    private PlayerController _playerController;
+    private Player _playerController;
 
-    private Vector3 playerSpawnPoint = new Vector3(-5.5f, 3.3f, 0);
+    private Vector3 _playerSpawnPoint = new Vector3(-5.5f, 3.3f, 0);
 
     private void Start()
     {
-
         Time.timeScale = 1;
         _UIView = Instantiate(_UIView);
 
-        _player = Instantiate(_player, playerSpawnPoint, Quaternion.identity);
-        _playerController = _player.GetComponent<PlayerController>();
+        _player = CompositionRoot.GetPlayer();
+        _player.transform.position = _playerSpawnPoint;
+        _playerController = _player.GetComponent<Player>();
         _playerController.Initialize();
         _playerController.PlayerDied += ShowGameOver;
         _playerController.PlayerDied += _levelGenerator.StopSpawning;
@@ -33,7 +34,7 @@ public class GameManager : MonoBehaviour
 
         _playerController.HealthChanged += _UIModel.UpdateHealth;
 
-        _camera = Instantiate(_camera);
+        _camera = CompositionRoot.GetCamera();
         _camera.SetPlayer(_player);
 
         _levelGenerator = Instantiate(_levelGenerator);
