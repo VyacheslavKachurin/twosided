@@ -7,11 +7,11 @@ using UnityEditor;
 #endif
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private CameraFollow _camera;
     [SerializeField] private UIView _UIView;
 
     [SerializeField] private LevelGenerator _levelGenerator;
-    
+
+    private CameraFollow _camera;
     private GameObject _player;
     private UIModel _UIModel;
     private Player _playerController;

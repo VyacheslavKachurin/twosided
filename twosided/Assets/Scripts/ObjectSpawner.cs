@@ -44,14 +44,12 @@ public class ObjectSpawner : MonoBehaviour
 
     private void SpawnEtype(EObjects etype)
     {
-
         var etypeInstance = _resourceManager.CreatePrefabInstance(etype);
 
         var etypeSpawnPoint = CalculateRandomPosition(etype);
         etypeInstance.transform.position = (Vector2)transform.position + etypeSpawnPoint;
         etypeInstance.transform.SetParent(transform);
     }
-
 
     private Vector2 CalculateRandomPosition(EObjects Etype)
     {
