@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public event Action<int> HealthChanged;
     public event Action PlayerDied;
     public event Action CoinPickedUp;
+    public event Action PlayerMoved;
     public int MaxHealth { get { return _maxHealth; } }
 
     [SerializeField] private float _blinkingInterval = 0.15f;
@@ -33,10 +34,13 @@ public class Player : MonoBehaviour
     private int _playerLayer = 6;
     private int _obstacleLayer = 8;
 
+    private int _lastPosition;
+
     public void Initialize()
     {
         ToggleCollisions(false);
- 
+
+        _lastPosition = 0;
 
         _currentHealth = _maxHealth;
         _ignoreMask = ~LayerMask.GetMask("PlayerMask");
@@ -66,13 +70,23 @@ public class Player : MonoBehaviour
     private void Update()
     {
         CheckForGround();
-
+        PassPlayerPosition();
     }
 
     private void MoveForward()
     {
         _forwardVelocity = new Vector2(_velocity, _rb.velocity.y);
         _rb.velocity = _forwardVelocity;
+    }
+
+    private void PassPlayerPosition()
+    {
+        int currentPosition = Mathf.FloorToInt(transform.position.x);
+        if (currentPosition > _lastPosition)
+        {
+            PlayerMoved();
+        }
+        _lastPosition = currentPosition;
     }
 
     public void Move(Direction direction)

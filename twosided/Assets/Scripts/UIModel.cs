@@ -6,7 +6,11 @@ public class UIModel
 {
     private UIView _view;
     private int _currentHealth;
-    public UIModel(UIView view, int maxHealth, GameManager _gameManager, Player _playerController)
+
+    private int _coinScore = 10;
+    private int _distanceScore = 1;
+    private float _fullness;
+    public UIModel(UIView view, int maxHealth, GameManager _gameManager, Player _player)
     {
         _currentHealth = maxHealth;
         _view = view;
@@ -14,9 +18,23 @@ public class UIModel
         _view.PauseClicked += TogglePauseMenu;
         _view.PauseClicked += _gameManager.TogglePause;
         _view.MenuClicked += _gameManager.LoadMenu;
-        _view.TopButton.ButtonPressed += _playerController.Move;
-        _view.DownButton.ButtonPressed += _playerController.Move;
+        _view.TopButton.ButtonPressed += _player.Move;
+        _view.DownButton.ButtonPressed += _player.Move;
         _view.RestartClicked += _gameManager.RestartLevel;
+        _player.PlayerMoved += AddDistanceScore;
+        _player.PlayerMoved += DecreaseFullness;
+        _player.CoinPickedUp += AddCoinScore;
+        _player.CoinPickedUp += AddFullness;
+    }
+
+    private void AddCoinScore()
+    {
+        _view.UpdateScore(_coinScore);
+    }
+
+    private void AddDistanceScore()
+    {
+        _view.UpdateScore(_distanceScore);
     }
 
     public void UpdateHealth(int newHealth)
@@ -42,5 +60,17 @@ public class UIModel
     {
         _view.ToggleGameOverMenu();
 
+    }
+
+    private void AddFullness()
+    {
+        _fullness += 0.07f;
+        _view.UpdateBelly(_fullness);
+    }
+
+    private void DecreaseFullness()
+    {
+        _fullness -= 0.01f;
+        _view.UpdateBelly(_fullness);
     }
 }

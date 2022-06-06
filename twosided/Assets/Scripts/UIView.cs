@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class UIView : MonoBehaviour
 {
@@ -22,13 +23,17 @@ public class UIView : MonoBehaviour
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _mainMenuButton;
     [SerializeField] private Button _restartButton;
-
+    [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private Image _hungerImage;
 
     private List<Image> _hearts = new List<Image>();
+    private int _currentScore = 0;
 
     public void Initialize(int heartsAmount)
     {
+        UpdateScore(0);
+
         for (int i = 0; i < heartsAmount; i++)
         {
             var heartInstance = Instantiate(_heartPrefab, _healthParent).GetComponent<Image>();
@@ -93,5 +98,16 @@ public class UIView : MonoBehaviour
         TogglePauseMenu();
         _restartButton.gameObject.SetActive(true);
         _continueButton.gameObject.SetActive(false);
+    }
+
+    public void UpdateScore(int score)
+    {
+        _currentScore += score;
+        _scoreText.text = _currentScore.ToString();
+    }
+
+    public void UpdateBelly(float value)
+    {
+        _hungerImage.fillAmount = value;
     }
 }
