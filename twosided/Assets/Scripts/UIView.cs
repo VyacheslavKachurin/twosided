@@ -33,6 +33,7 @@ public class UIView : MonoBehaviour
     public void Initialize(int heartsAmount)
     {
         UpdateScore(0);
+        UpdateBelly(1f);
 
         for (int i = 0; i < heartsAmount; i++)
         {

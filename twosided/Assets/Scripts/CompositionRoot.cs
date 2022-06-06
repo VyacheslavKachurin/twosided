@@ -8,7 +8,6 @@ public class CompositionRoot : MonoBehaviour
     private static IResourceManager _resourceManager;
     private static CameraFollow _camera;
 
-
     public static IResourceManager GetResourceManager()
     {
         if (_resourceManager == null)
@@ -16,11 +15,11 @@ public class CompositionRoot : MonoBehaviour
         return _resourceManager;
     }
 
-    public static GameObject GetPlayer()
+    public static Player GetPlayer()
     {
         if (_player == null)
             _player = _resourceManager.CreatePrefabInstance(EObjects.Player);
-        return _player;
+        return _player.GetComponent<Player>();
     }
 
     public static CameraFollow GetCamera()

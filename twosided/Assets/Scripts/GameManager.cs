@@ -12,9 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LevelGenerator _levelGenerator;
 
     private CameraFollow _camera;
-    private GameObject _player;
     private UIModel _UIModel;
-    private Player _playerController;
+    private Player _player;
 
     private Vector3 _playerSpawnPoint = new Vector3(-5.5f, 3.3f, 0);
 
@@ -25,17 +24,17 @@ public class GameManager : MonoBehaviour
 
         _player = CompositionRoot.GetPlayer();
         _player.transform.position = _playerSpawnPoint;
-        _playerController = _player.GetComponent<Player>();
-        _playerController.Initialize();
-        _playerController.PlayerDied += ShowGameOver;
-        _playerController.PlayerDied += _levelGenerator.StopSpawning;
+        _player = _player.GetComponent<Player>();
+        _player.Initialize();
+        _player.PlayerDied += ShowGameOver;
+        _player.PlayerDied += _levelGenerator.StopSpawning;
 
-        _UIModel = new UIModel(_UIView, _playerController.MaxHealth, this, _playerController);
+        _UIModel = new UIModel(_UIView, _player.MaxHealth, this, _player);
 
-        _playerController.HealthChanged += _UIModel.UpdateHealth;
+        _player.HealthChanged += _UIModel.UpdateHealth;
 
         _camera = CompositionRoot.GetCamera();
-        _camera.SetPlayer(_player);
+        _camera.SetPlayer(_player.gameObject);
 
         _levelGenerator = Instantiate(_levelGenerator);
         _levelGenerator.SetPlayer(_player.transform);

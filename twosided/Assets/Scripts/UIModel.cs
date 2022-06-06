@@ -1,17 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class UIModel
 {
+    public Action PlayerStarved;
     private UIView _view;
     private int _currentHealth;
 
     private int _coinScore = 10;
     private int _distanceScore = 1;
     private float _fullness;
+
+    private float FullnessProperty
+    {
+        get { return _fullness; }
+        set
+        {
+            if (0 <= value && value <= 1f)
+            {
+                _fullness = value;
+                if (_fullness == 0)
+                    PlayerStarved?.Invoke();
+            }
+        }
+    }
+
     public UIModel(UIView view, int maxHealth, GameManager _gameManager, Player _player)
     {
+        FullnessProperty = 1f;
         _currentHealth = maxHealth;
         _view = view;
         _view.Initialize(_currentHealth);
@@ -64,13 +82,13 @@ public class UIModel
 
     private void AddFullness()
     {
-        _fullness += 0.07f;
+        FullnessProperty += 0.07f;
         _view.UpdateBelly(_fullness);
     }
 
     private void DecreaseFullness()
     {
-        _fullness -= 0.01f;
+        FullnessProperty -= 0.01f;
         _view.UpdateBelly(_fullness);
     }
 }

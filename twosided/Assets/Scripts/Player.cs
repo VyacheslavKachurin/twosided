@@ -85,6 +85,7 @@ public class Player : MonoBehaviour
         if (currentPosition > _lastPosition)
         {
             PlayerMoved();
+           
         }
         _lastPosition = currentPosition;
     }
