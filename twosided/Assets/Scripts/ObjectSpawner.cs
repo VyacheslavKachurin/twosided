@@ -14,7 +14,7 @@ public class ObjectSpawner : MonoBehaviour
 
     public void Start()
     {
-        Initialize();
+      //  Initialize();
     }
 
     private void Initialize()

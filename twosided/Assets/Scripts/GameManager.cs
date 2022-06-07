@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
         _player.PlayerDied += _levelGenerator.StopSpawning;
 
         _UIModel = new UIModel(_UIView, _player.MaxHealth, this, _player);
+        _UIModel.PlayerStarved += ShowGameOver;
 
         _player.HealthChanged += _UIModel.UpdateHealth;
 
@@ -64,6 +65,8 @@ public class GameManager : MonoBehaviour
 
     private void ShowGameOver()
     {
+        _UIModel.SaveScore();
+        TogglePause();
         _levelGenerator.StopSpawning();
         _UIModel.ToggleGameOverMenu();
     }

@@ -11,6 +11,7 @@ public class UIModel
 
     private int _coinScore = 10;
     private int _distanceScore = 1;
+    private int _totalScore;
     private float _fullness;
 
     private float FullnessProperty
@@ -18,17 +19,20 @@ public class UIModel
         get { return _fullness; }
         set
         {
-            if (0 <= value && value <= 1f)
+            if (value <= 1f)
             {
                 _fullness = value;
-                if (_fullness == 0)
+                if (_fullness <= 0)
+                {
                     PlayerStarved?.Invoke();
+                }
             }
         }
     }
 
     public UIModel(UIView view, int maxHealth, GameManager _gameManager, Player _player)
     {
+        _totalScore = 0;
         FullnessProperty = 1f;
         _currentHealth = maxHealth;
         _view = view;
@@ -45,13 +49,21 @@ public class UIModel
         _player.CoinPickedUp += AddFullness;
     }
 
+    public void SaveScore()
+    {
+        Debug.Log("saving score");
+        GameSettings.HighScore =_totalScore;
+    }
+
     private void AddCoinScore()
     {
+        _totalScore += _coinScore;
         _view.UpdateScore(_coinScore);
     }
 
     private void AddDistanceScore()
     {
+        _totalScore += _distanceScore;
         _view.UpdateScore(_distanceScore);
     }
 
