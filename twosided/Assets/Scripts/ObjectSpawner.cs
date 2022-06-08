@@ -14,7 +14,7 @@ public class ObjectSpawner : MonoBehaviour
 
     public void Start()
     {
-      //  Initialize();
+        Initialize();
     }
 
     private void Initialize()
@@ -24,17 +24,17 @@ public class ObjectSpawner : MonoBehaviour
         var randomObjectAmount = UnityEngine.Random.Range(1, 5);
         for (int i = 0; i < randomObjectAmount; i++)
         {
-            SpawnEtype(EObjects.Obstacle);
+            SpawnEtype(EObject.Obstacle);
         }
 
         for (int i = 0; i < 4; i++)
         {
-            SpawnEtype(EObjects.Coin);
+            SpawnEtype(EObject.Coin);
         }
 
         int random = UnityEngine.Random.Range(0, 10);
         if (random > 8)
-            SpawnEtype(EObjects.Heart);
+            SpawnEtype(EObject.Heart);
     }
 
     private void OnDestroy()
@@ -42,7 +42,7 @@ public class ObjectSpawner : MonoBehaviour
         InstanceDestroyed?.Invoke();
     }
 
-    private void SpawnEtype(EObjects etype)
+    private void SpawnEtype(EObject etype)
     {
         var etypeInstance = _resourceManager.CreatePrefabInstance(etype);
 
@@ -51,7 +51,7 @@ public class ObjectSpawner : MonoBehaviour
         etypeInstance.transform.SetParent(transform);
     }
 
-    private Vector2 CalculateRandomPosition(EObjects Etype)
+    private Vector2 CalculateRandomPosition(EObject Etype)
     {
         int sign = UnityEngine.Random.Range(0, 2) * 2 - 1;
 
@@ -67,7 +67,7 @@ public class ObjectSpawner : MonoBehaviour
             _spawnedObjects.Add(spawnPosition);
             return spawnPosition;
         }
-        else if (Etype != EObjects.Obstacle)
+        else if (Etype != EObject.Obstacle)
         {
             if (sign > 0) spawnPosition.y += _distanceUnit * 4;
             else spawnPosition.y -= _distanceUnit * 4;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSettings
+public static class GameSettings
 {
     private const string _isMusicOnKey = "IsMusicOn";
     private const string _isSoundEffectsOnKey = "IsSoundEfectsOn";
@@ -22,7 +22,7 @@ public class GameSettings
         }
     }
 
-    public static bool IsSoundEffectsOn
+    public static bool IsSFXOn
     {
         get
         {

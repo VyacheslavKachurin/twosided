@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public event Action PlayerDied;
     public event Action CoinPickedUp;
     public event Action PlayerMoved;
+    public event Action<EAudio> PlayerActed;
     public int MaxHealth { get { return _maxHealth; } }
 
     [SerializeField] private float _blinkingInterval = 0.15f;
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
 
     public void Initialize()
     {
+        CoupleSFX();
         ToggleCollisions(false);
 
         _lastPosition = 0;
@@ -85,7 +87,7 @@ public class Player : MonoBehaviour
         if (currentPosition > _lastPosition)
         {
             PlayerMoved();
-           
+
         }
         _lastPosition = currentPosition;
     }
@@ -117,6 +119,8 @@ public class Player : MonoBehaviour
     {
         Vector2 forceDirection = (direction == Direction.Up) ? Vector2.up : Vector2.down;
         _rb.AddForce(forceDirection * _jumpForce);
+
+        PlayerActed?.Invoke(EAudio.Jump);
     }
 
 
@@ -124,10 +128,16 @@ public class Player : MonoBehaviour
     {
         Vector2 rayDirection = (_currentPosition == Direction.Up) ? Vector2.down : Vector2.up;
 
-        Debug.DrawRay(transform.position, rayDirection, Color.red);
+        Debug.DrawRay(transform.position, rayDirection, Color.red);//TODO: get rid of
 
         if (Physics2D.Raycast(transform.position, rayDirection, _rayLength, _ignoreMask))
-            _isGrounded = true;
+        {
+            if (!_isGrounded)
+            {
+                _isGrounded = true;
+                PlayerActed(EAudio.Landing);
+            }
+        }
         else
             _isGrounded = false;
     }
@@ -179,8 +189,8 @@ public class Player : MonoBehaviour
     private IEnumerator StopBlinking()
     {
         yield return new WaitForSeconds(_blinkingDuration);
-        if(_blinkingCoroutine!=null)
-        StopCoroutine(_blinkingCoroutine);
+        if (_blinkingCoroutine != null)
+            StopCoroutine(_blinkingCoroutine);
         _spriteRenderer.color = Color.blue;
         _blinkingCoroutine = null;
         ToggleCollisions(false);
@@ -215,15 +225,21 @@ public class Player : MonoBehaviour
         StartCoroutine(StopBlinking());
     }
 
-    private void ToggleCollisions(bool value=true)
+    private void ToggleCollisions(bool value = true)
     {
         Physics2D.IgnoreLayerCollision(_playerLayer, _obstacleLayer, value);
     }
 
     private void OnDestroy()
     {
-        if(_currentPosition==Direction.Down)
-        ChangeGravity(Direction.Up);
+        if (_currentPosition == Direction.Down)
+            ChangeGravity(Direction.Up);
+    }
+
+    public void CoupleSFX()
+    {
+        var audioManager = CompositionRoot.GetAudioManager();
+        PlayerActed += audioManager.PlaySound;
     }
 
 

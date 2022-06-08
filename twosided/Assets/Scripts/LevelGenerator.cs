@@ -49,7 +49,7 @@ public class LevelGenerator : MonoBehaviour
     {
         _resourceManager = CompositionRoot.GetResourceManager();
 
-        _platformHolder = _resourceManager.CreatePrefabInstance(EObjects.PlatformHolder).transform;
+        _platformHolder = _resourceManager.CreatePrefabInstance(EObject.PlatformHolder).transform;
         _platformHolder.transform.position = Vector3.zero;
 
         for (int i = 0; i < 5; i++)
@@ -62,7 +62,7 @@ public class LevelGenerator : MonoBehaviour
         if (_isGameFinished)
             return;
 
-        var dividerInstance = _resourceManager.CreatePrefabInstance(EObjects.Platform);
+        var dividerInstance = _resourceManager.CreatePrefabInstance(EObject.Platform);
         dividerInstance.transform.position = _spawnPoint;
         dividerInstance.transform.SetParent(_platformHolder);
         dividerInstance.GetComponent<ObjectSpawner>().InstanceDestroyed += AddPlatform;

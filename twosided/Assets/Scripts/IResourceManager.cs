@@ -1,6 +1,9 @@
 ﻿using UnityEngine; 
 public interface IResourceManager
 {
-    public GameObject CreatePrefabInstance(EObjects prefab);
+    public GameObject CreatePrefabInstance(EObject prefab);
+
+    public AudioClip LoadSFX(EAudio audio);
+    public AudioSource GetMusic();
 
 }
