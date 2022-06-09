@@ -24,7 +24,7 @@ public class UIModel
                 _fullness = value;
                 if (_fullness <= 0)
                 {
-                    PlayerStarved?.Invoke();
+                   // PlayerStarved?.Invoke();
                 }
             }
         }
@@ -40,8 +40,11 @@ public class UIModel
         _view.PauseClicked += TogglePauseMenu;
         _view.PauseClicked += _gameManager.TogglePause;
         _view.MenuClicked += _gameManager.LoadMenu;
-        _view.TopButton.ButtonPressed += _player.Move;
-        _view.DownButton.ButtonPressed += _player.Move;
+        _view.TopButton.ButtonPressed += _player.StartMoving;
+        _view.DownButton.ButtonPressed += _player.StartMoving;
+        _view.TopButton.ButtonUp += _player.CancelCoroutine;
+        _view.DownButton.ButtonUp += _player.CancelCoroutine;
+
         _view.RestartClicked += _gameManager.RestartLevel;
         _player.PlayerMoved += AddDistanceScore;
         _player.PlayerMoved += DecreaseFullness;
@@ -51,7 +54,6 @@ public class UIModel
 
     public void SaveScore()
     {
-        Debug.Log("saving score");
         GameSettings.HighScore =_totalScore;
     }
 

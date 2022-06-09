@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
     private bool _isGrounded = false;
     private Vector2 _forwardVelocity;
     private float _rayLength;
+    private float _doubleRayLength;
     private int _currentHealth;
 
     private Coroutine _blinkingCoroutine;
@@ -37,6 +38,8 @@ public class Player : MonoBehaviour
 
     private int _lastPosition;
 
+    private bool _isButtonUp = false;
+    private Coroutine _movingCoroutine;
     public void Initialize()
     {
         CoupleSFX();
@@ -92,18 +95,24 @@ public class Player : MonoBehaviour
         _lastPosition = currentPosition;
     }
 
-    public void Move(Direction direction)
+    public void StartMoving(Direction direction)
     {
+        _movingCoroutine = StartCoroutine(Move(direction));
+    }
+    private IEnumerator Move(Direction direction)
+    {
+
         if (!_isGrounded)
-            return;
+            yield return new WaitUntil(() => _isGrounded == true);
 
         if (_currentPosition != direction)
         {
             ChangeGravity(direction);
-            return;
+            yield break;
         }
 
         Jump(direction);
+
     }
 
     private void ChangeGravity(Direction direction)
@@ -118,6 +127,8 @@ public class Player : MonoBehaviour
     private void Jump(Direction direction)
     {
         Vector2 forceDirection = (direction == Direction.Up) ? Vector2.up : Vector2.down;
+        Vector2 zeroYvelocity = new Vector2(_rb.velocity.x, 0);
+        _rb.velocity = zeroYvelocity;
         _rb.AddForce(forceDirection * _jumpForce);
 
         PlayerActed?.Invoke(EAudio.Jump);
@@ -130,10 +141,12 @@ public class Player : MonoBehaviour
 
         Debug.DrawRay(transform.position, rayDirection, Color.red);//TODO: get rid of
 
+
         if (Physics2D.Raycast(transform.position, rayDirection, _rayLength, _ignoreMask))
         {
             if (!_isGrounded)
             {
+
                 _isGrounded = true;
                 PlayerActed(EAudio.Landing);
             }
@@ -240,6 +253,15 @@ public class Player : MonoBehaviour
     {
         var audioManager = CompositionRoot.GetAudioManager();
         PlayerActed += audioManager.PlaySound;
+    }
+
+    public void CancelCoroutine()
+    {
+        if (_movingCoroutine != null)
+        {
+            StopCoroutine(_movingCoroutine);
+
+        }
     }
 
 
